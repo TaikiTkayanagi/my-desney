@@ -10,6 +10,6 @@ from src.infrastructures.my_requests import MyRequests
 # import requests
 
 
-def lambda_handler(event, context):
-    service = ResortService(MyRequests(), MyBeautifuleSoupFactory())
-    service.save_resort_data()
+#def lambda_handler(event, context):
+    #service = ResortService(MyRequests(), MyBeautifuleSoupFactory())
+    #service.save_resort_data()
