@@ -1,15 +1,21 @@
-import json
-
-import requests
-
+import datetime
+from src.features.resort.modeles.resort_url import ResortUrl
 from src.features.resort.services.resort_service import ResortService
 from src.infrastructures.my_beautifule_soup import MyBeautifuleSoupFactory
+from src.infrastructures.my_dynamo_client import MyDynamoClien
 from src.infrastructures.my_requests import MyRequests
+from src.infrastructures.my_s3_client import MyS3Client
 
 
-# import requests
 
 
-#def lambda_handler(event, context):
-    #service = ResortService(MyRequests(), MyBeautifuleSoupFactory())
-    #service.save_resort_data()
+def lambda_handler(event, context):
+    now = datetime.datetime.now()
+    register_date_time = now.strftime("%Y-%m-%d %H:%M")
+    bucket = "my-disney-resort-bucket"
+    land_key = "gr_json/land_gr_json.json"
+    sea_key = "gr_json/sea_gr_json.json"
+    land_service = ResortService(MyRequests(), MyBeautifuleSoupFactory(), ResortUrl(True), MyDynamoClien(), MyS3Client(bucket, land_key))
+    land_service.save_resort_data(register_date_time, "land")
+    sea_service = ResortService(MyRequests(), MyBeautifuleSoupFactory(), ResortUrl(True), MyDynamoClien(), MyS3Client(bucket, sea_key))
+    sea_service.save_resort_data(register_date_time, "sea")
