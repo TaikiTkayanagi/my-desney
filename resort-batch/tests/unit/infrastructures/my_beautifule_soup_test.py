@@ -13,7 +13,6 @@ def test_pick_up_real_time(html):
     assert real_times.list[0].area == "test1"
     assert real_times.list[0].name == "test2"
     assert real_times.list[0].condition == "test3"
-    assert real_times.list[0].note == "test4"
 
 def test_pick_up_greeting(html):
     expected = ["test2", "test5"]

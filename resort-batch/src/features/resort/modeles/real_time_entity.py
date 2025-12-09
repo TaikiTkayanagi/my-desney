@@ -12,7 +12,6 @@ class RealTimes:
                     area=real_time.area,
                     name=real_time.name,
                     condition=real_time.condition,
-                    note=real_time.note,
                     type="greeting"
                 ))
             elif real_time.name in restaurant.names:
@@ -20,7 +19,6 @@ class RealTimes:
                     area=real_time.area,
                     name=real_time.name,
                     condition=real_time.condition,
-                    note=real_time.note,
                     type="restaurant"
                 ))
             else:
@@ -28,7 +26,6 @@ class RealTimes:
                     area=real_time.area,
                     name=real_time.name,
                     condition=real_time.condition,
-                    note=real_time.note,
                     type="attraction"
                 ))
         return result
@@ -38,16 +35,24 @@ class RealTime:
     area: str
     name: str
     condition: str
-    note: str | None
 
 @dataclass
 class Greeting:
     names: list[str]
+    def is_empty(self) -> bool:
+        return len(self.names) == 0
 
 @dataclass
 class Restaurant:
     names: list[str]
+    def is_empty(self) -> bool:
+        return len(self.names) == 0
     
 @dataclass
 class RegisterRealTime(RealTime):
     type: str
+
+@dataclass
+class GrJson:
+    greeting: Greeting
+    restaurant: Restaurant

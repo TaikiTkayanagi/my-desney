@@ -31,7 +31,6 @@ class MyBeautifuleSoup(ResortHtmlParser):
                 area=area,
                 name=name,
                 condition=condition,
-                note=note
             ))
         return RealTimes(result)
     
