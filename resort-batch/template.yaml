@@ -11,31 +11,77 @@ Globals:
     Timeout: 3
 
 Resources:
-  HelloWorldFunction:
+  ResortBatchBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: my-d-resort-bucket
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      LifecycleConfiguration:
+        Rules:
+          - Id: DeleteOldObjects
+            Status: Enabled
+            ExpirationInDays: 30
+  
+  ResotrBatchDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: resortWaiting
+      AttributeDefinitions:
+        - AttributeName: date_time
+          AttributeType: S
+        - AttributeName: name
+          AttributeType: S
+        - AttributeName: place
+          AttributeType: S
+      KeySchema:
+        - AttributeName: date_time
+          KeyType: HASH
+        - AttributeName: name
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      LocalSecondaryIndexes:
+        - IndexName: place-index
+          KeySchema:
+            - AttributeName: date_time
+              KeyType: HASH
+            - AttributeName: place
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      SSESpecification:
+        SSEEnabled: false
+
+  ResortBatchFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: hello_world/
-      Handler: app.lambda_handler
+      CodeUri: .
+      Handler: src.app.lambda_handler
       Runtime: python3.14
+      Timeout: 10
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref ResortBatchBucket
+          TABLE_NAME: !Ref ResotrBatchDynamoDBTable
       Architectures:
         - x86_64
       Events:
-        HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+        ScheduledEvent:
+          Type: Schedule 
           Properties:
-            Path: /hello
-            Method: get
-
-Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+            Schedule: "cron(*/10 0-11 * * ? *)"
+            Name: ResortBatchSchedule
+            Enabled: true
+            RetryPolicy: 
+              MaximumRetryAttempts: 3
+    
+    

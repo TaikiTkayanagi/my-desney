@@ -1,3 +1,4 @@
+from dataclasses import asdict
 import json
 import boto3
 from src.features.resort.infra.resort_storage import ResotrStorage
@@ -23,7 +24,7 @@ class MyS3Client(ResotrStorage):
         return g, r
 
     def save_gr_json(self, gr_json: GrJson) -> None:
-        json_data = json.dumps(gr_json).encode('utf-8') 
+        json_data = json.dumps(asdict(gr_json)).encode('utf-8') 
         s3.put_object(
             Bucket=self.bucket,
             Key=self.key,
