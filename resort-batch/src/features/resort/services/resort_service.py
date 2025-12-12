@@ -3,7 +3,9 @@ from src.features.resort.infra.resort_requests import ResortRequests
 from src.features.resort.infra.resort_html_parser import ResortHtmlParserFactory
 from src.features.resort.infra.resort_storage import ResotrStorage
 from src.features.resort.infra.waiting_repository import WaitingRepository
+from src.features.resort.modeles.date_time import MyDateTime
 from src.features.resort.modeles.real_time_entity import GrJson
+from src.features.resort.modeles.resort_place import ResortPlace
 from src.features.resort.modeles.resort_url import ResortUrl
 
 
@@ -15,14 +17,14 @@ class ResortService:
         self.repository = repository
         self.storage = storage
     
-    def save_resort_data(self, datetime: str, place: str) -> None:
-        logging.info(f"ResortService: 処理を開始 for {place} at {datetime}")
+    def save_resort_data(self, datetime: MyDateTime, place: ResortPlace) -> None:
+        logging.info(f"ResortService: 処理を開始 for {place} at {datetime.to_str()}")
         greeting_names = None
         restrant_names = None
         try:
-            if self.storage.is_exist_gr_json():
+            if self.storage.is_exist_gr_json(place.get_gr_key()):
                 logging.info("S3にgr_jsonが存在するため取得します")
-                greeting_names, restrant_names = self.storage.get_gr_names()
+                greeting_names, restrant_names = self.storage.get_gr_names(place.get_gr_key())
         except Exception as e:
             logging.warning(f"S3からのgr_jsonの取得に失敗しました: {e}")
         
@@ -55,7 +57,8 @@ class ResortService:
         try:
             logging.info("DynamoDBに保存します")
             register = real_times.convert_for_register(greeting_names, restrant_names)
-            self.repository.save(register, datetime, place)
+            self.repository.save(register, datetime, place.value)
+            self.storage.save_place_time_if_not_cache(datetime.create_time())
         except Exception as e:
             logging.error(f"DynamoDBへの保存に失敗しました: {e}")
             raise e
@@ -63,6 +66,6 @@ class ResortService:
         if is_gr_save and greeting_names is not None and restrant_names is not None:
             try:
                 logging.info("S3にgr_jsonを保存します")
-                self.storage.save_gr_json(GrJson(restaurant=restrant_names, greeting=greeting_names))
+                self.storage.save_gr_json(place.get_gr_key(), GrJson(restaurant=restrant_names, greeting=greeting_names))
             except Exception as e:
                 logging.warning(f"S3へのgr_jsonの保存に失敗しました: {e}")

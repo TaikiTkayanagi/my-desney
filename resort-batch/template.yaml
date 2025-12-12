@@ -28,36 +28,26 @@ Resources:
         Rules:
           - Id: DeleteOldObjects
             Status: Enabled
+            Prefix: "gr_json/"
             ExpirationInDays: 30
   
   ResotrBatchDynamoDBTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: resortWaiting
+      TableName: resortWaitingv1
       AttributeDefinitions:
-        - AttributeName: date_time
+        - AttributeName: id
           AttributeType: S
-        - AttributeName: name
-          AttributeType: S
-        - AttributeName: place
+        - AttributeName: place_time
           AttributeType: S
       KeySchema:
-        - AttributeName: date_time
+        - AttributeName: id
           KeyType: HASH
-        - AttributeName: name
+        - AttributeName: place_time
           KeyType: RANGE
       ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
-      LocalSecondaryIndexes:
-        - IndexName: place-index
-          KeySchema:
-            - AttributeName: date_time
-              KeyType: HASH
-            - AttributeName: place
-              KeyType: RANGE
-          Projection:
-            ProjectionType: ALL
+        ReadCapacityUnits: 4
+        WriteCapacityUnits: 4
       SSESpecification:
         SSEEnabled: false
 
