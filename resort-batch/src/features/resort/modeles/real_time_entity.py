@@ -4,9 +4,18 @@ class RealTimes:
     def __init__(self, real_times: list[RealTime]):
         self.list = real_times
     
-    def convert_for_register(self, greeting: Greeting, restaurant: Restaurant) -> list[RegisterRealTime]:
+    def convert_for_register(self, greeting: Greeting | None, restaurant: Restaurant | None) -> list[RegisterRealTime]:
         result = []
         for real_time in self.list:
+            if greeting is None or restaurant is None:
+                result.append(RegisterRealTime(
+                    area=real_time.area,
+                    name=real_time.name,
+                    condition=real_time.condition,
+                    type="unknown"
+                ))
+                continue
+            
             if real_time.name in greeting.names:
                 result.append(RegisterRealTime(
                     area=real_time.area,

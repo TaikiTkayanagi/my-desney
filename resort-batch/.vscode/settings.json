@@ -2,7 +2,8 @@
     "python.analysis.typeCheckingMode": "basic", // または "strict"
     "python.analysis.diagnosticMode": "workspace",
     "python.analysis.exclude": [
-        "./.venv"
+        "./.venv",
+        "./.aws-sam/"
     ],
     "python.testing.pytestArgs": [
         "tests"

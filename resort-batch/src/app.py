@@ -25,5 +25,5 @@ def lambda_handler(event, context):
     sea_key = "gr_json/sea_gr_json.json"
     land_service = ResortService(MyRequests(), MyBeautifuleSoupFactory(), ResortUrl(True), MyDynamoClien(table), MyS3Client(bucket, land_key))
     land_service.save_resort_data(register_date_time, "land")
-    sea_service = ResortService(MyRequests(), MyBeautifuleSoupFactory(), ResortUrl(True), MyDynamoClien(table), MyS3Client(bucket, sea_key))
+    sea_service = ResortService(MyRequests(), MyBeautifuleSoupFactory(), ResortUrl(False), MyDynamoClien(table), MyS3Client(bucket, sea_key))
     sea_service.save_resort_data(register_date_time, "sea")
