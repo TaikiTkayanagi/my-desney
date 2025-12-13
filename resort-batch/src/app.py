@@ -5,6 +5,7 @@ from zoneinfo import ZoneInfo
 
 import boto3
 from mypy_boto3_dynamodb import DynamoDBServiceResource
+from mypy_boto3_s3 import S3Client
 from src.features.resort.modeles.date_time import MyDateTime
 from src.features.resort.modeles.resort_place import ResortPlace
 from src.features.resort.modeles.resort_url import ResortUrl
@@ -15,9 +16,9 @@ from src.infrastructures.my_requests import MyRequests
 from src.infrastructures.my_s3_client import MyS3Client
 
 
-
 dynamodb: DynamoDBServiceResource = boto3.resource("dynamodb")
 table = dynamodb.Table(os.environ["TABLE_NAME"]) 
+s3: S3Client = boto3.client('s3')
 s3 = boto3.client('s3')
 logging.basicConfig(level=logging.INFO)
 

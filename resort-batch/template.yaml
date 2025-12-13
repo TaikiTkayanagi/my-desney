@@ -34,16 +34,36 @@ Resources:
   ResotrBatchDynamoDBTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: resortWaitingv1
+      TableName: resortWaiting
       AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
         - AttributeName: place_time
+          AttributeType: S
+        - AttributeName: id
           AttributeType: S
       KeySchema:
-        - AttributeName: id
-          KeyType: HASH
         - AttributeName: place_time
+          KeyType: HASH
+        - AttributeName: id
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 4
+        WriteCapacityUnits: 4
+      SSESpecification:
+        SSEEnabled: false
+  
+  DevResotrBatchDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: dev-resortWaiting
+      AttributeDefinitions:
+        - AttributeName: place_time
+          AttributeType: S
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: place_time
+          KeyType: HASH
+        - AttributeName: id
           KeyType: RANGE
       ProvisionedThroughput:
         ReadCapacityUnits: 4
@@ -54,6 +74,7 @@ Resources:
   ResortBatchFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
+      FunctionName: resort-batch 
       CodeUri: .
       Handler: src.app.lambda_handler
       Runtime: python3.14
