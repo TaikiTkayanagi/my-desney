@@ -1,0 +1,13 @@
+{
+    "python.analysis.typeCheckingMode": "basic", // または "strict"
+    "python.analysis.diagnosticMode": "workspace",
+    "python.analysis.exclude": [
+        "./.venv",
+        "./.aws-sam/"
+    ],
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}
