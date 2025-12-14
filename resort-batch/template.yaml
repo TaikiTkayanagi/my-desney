@@ -137,4 +137,18 @@ Resources:
             RetryPolicy: 
               MaximumRetryAttempts: 3
     
+Outputs:
+    TableName:
+      Value: !Ref ResotrBatchDynamoDBTable
+      Export: 
+        Name: !Sub "${AWS::StackName}-TableName"
+    BucketName: 
+      Value: !Ref ResortBatchBucket
+      Export: 
+        Name: !Sub "${AWS::StackName}-BucketName"
+    GsiName:
+      Value: date_time_gsi
+      Export: 
+        Name: !Sub "${AWS::StackName}-GsiName" 
     
+  
