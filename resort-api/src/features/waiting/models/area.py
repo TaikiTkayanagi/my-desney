@@ -12,6 +12,7 @@ class Area:
         "ウエスタンランド": "westan",
         "クリッターカントリー": "country",
         "アドベンチャーランド": "adventure",
+        "": "other"
     }
     _SEA_AREA_DICT: ClassVar[dict[str, str]] = {
         "ミステリアスアイランド": "mysterious",
@@ -21,7 +22,8 @@ class Area:
         "ポートディスカバリー": "port",
         "ロストリバーデルタ": "lost",
         "メディテレーニアンハーバー": "mediterranean",
-        "アラビアンコースト": "arabian"
+        "アラビアンコースト": "arabian",
+        "": "other"
     }
     name: str
     attractions: list[Attraction]
