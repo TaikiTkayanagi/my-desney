@@ -12,5 +12,5 @@ class MyS3Client(ResortStorage):
     
     def get_last_update(self):
         res = self.client.get_object(Bucket=self.bucket, Key=self.key)
-        body = res['Body'].read().decode('utf-8')
-        return LastUpdate(body)
+        body = res['Body'].read().decode('utf-8').split("\n")
+        return LastUpdate(body[0], body[1])

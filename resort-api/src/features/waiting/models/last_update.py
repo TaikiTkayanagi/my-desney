@@ -3,8 +3,9 @@ from dataclasses import dataclass
 
 @dataclass
 class LastUpdate():
-    value: str
+    place_time: str
+    date_time: str
 
-    def create_place_time(self, place: str):
-        return f"{place}-{self.value}"
+    def get_place(self):
+        return self.place_time.split("_")[0]
     

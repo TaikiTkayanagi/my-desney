@@ -52,7 +52,6 @@ class Areas:
         return ret
             
             
-        
 @dataclass
 class Attraction:
     name: str

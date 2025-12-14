@@ -6,13 +6,14 @@ from src.features.waiting.models.waiting_item import WaitingItem, WaitingItems
 
 
 class MyDynamoDBClient(WaitingRepository):
-    def __init__(self, table: Table):
+    def __init__(self, table: Table, gsi:str):
         self.table = table
+        self.gsi = gsi
 
-    def get_by(self, last_update: LastUpdate) -> WaitingItems:
+    def get_by(self, last_update: LastUpdate, place: str) -> WaitingItems:
         response = self.table.query(
-            KeyConditionExpression=Key("place_time").eq(
-                last_update.create_place_time("land")),
+            IndexName=self.gsi,
+            KeyConditionExpression=Key("date_time").eq(last_update.date_time) & Key("place").eq(place),
             ReturnConsumedCapacity="TOTAL",
             ConsistentRead=False
         )

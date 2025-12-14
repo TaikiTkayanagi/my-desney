@@ -6,6 +6,6 @@ from src.features.waiting.models.waiting_item import WaitingItems
 
 class WaitingRepository(metaclass=ABCMeta):
     @abstractmethod
-    def get_by(self, last_update: LastUpdate) -> WaitingItems:
+    def get_by(self, last_update: LastUpdate, place: str) -> WaitingItems:
        pass 
     
