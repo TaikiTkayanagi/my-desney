@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "resort-api"
+		},
+		{
+			"path": "resort-front"
 		}
 	],
 	"settings": {}
