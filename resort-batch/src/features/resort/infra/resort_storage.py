@@ -19,5 +19,5 @@ class ResotrStorage(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def save_place_time_if_not_cache(self, date_time: str) -> None:
+    def save_place_time_if_not_cache(self, body: bytes) -> None:
         pass

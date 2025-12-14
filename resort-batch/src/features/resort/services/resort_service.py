@@ -58,7 +58,7 @@ class ResortService:
             logging.info("DynamoDBに保存します")
             register = real_times.convert_for_register(greeting_names, restrant_names)
             self.repository.save(register, datetime, place.value)
-            self.storage.save_place_time_if_not_cache(datetime.create_time())
+            self.storage.save_place_time_if_not_cache(datetime.create_last_update())
         except Exception as e:
             logging.error(f"DynamoDBへの保存に失敗しました: {e}")
             raise e

@@ -40,6 +40,10 @@ Resources:
           AttributeType: S
         - AttributeName: id
           AttributeType: S
+        - AttributeName: date_time
+          AttributeType: S
+        - AttributeName: place
+          AttributeType: S
       KeySchema:
         - AttributeName: place_time
           KeyType: HASH
@@ -50,6 +54,23 @@ Resources:
         WriteCapacityUnits: 4
       SSESpecification:
         SSEEnabled: false
+      GlobalSecondaryIndexes:
+        - IndexName: date_time_gsi
+          ProvisionedThroughput:
+            ReadCapacityUnits: 4
+            WriteCapacityUnits: 4
+          KeySchema:
+            - AttributeName: date_time
+              KeyType: HASH
+            - AttributeName: place
+              KeyType: RANGE
+          Projection:
+            ProjectionType: INCLUDE
+            NonKeyAttributes: 
+              - area
+              - condition
+              - name
+              - type
   
   DevResotrBatchDynamoDBTable:
     Type: AWS::DynamoDB::Table
@@ -60,6 +81,10 @@ Resources:
           AttributeType: S
         - AttributeName: id
           AttributeType: S
+        - AttributeName: date_time
+          AttributeType: S
+        - AttributeName: place
+          AttributeType: S
       KeySchema:
         - AttributeName: place_time
           KeyType: HASH
@@ -70,6 +95,23 @@ Resources:
         WriteCapacityUnits: 4
       SSESpecification:
         SSEEnabled: false
+      GlobalSecondaryIndexes:
+        - IndexName: date_time_gsi
+          ProvisionedThroughput:
+            ReadCapacityUnits: 4
+            WriteCapacityUnits: 4
+          KeySchema:
+            - AttributeName: date_time
+              KeyType: HASH
+            - AttributeName: place
+              KeyType: RANGE
+          Projection:
+            ProjectionType: INCLUDE
+            NonKeyAttributes: 
+              - area
+              - condition
+              - name
+              - type
 
   ResortBatchFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction

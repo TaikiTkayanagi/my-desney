@@ -2,6 +2,7 @@ from dataclasses import asdict
 import json
 from mypy_boto3_s3 import S3Client
 from src.features.resort.infra.resort_storage import ResotrStorage
+from src.features.resort.modeles.date_time import MyDateTime
 from src.features.resort.modeles.real_time_entity import GrJson, Greeting, Restaurant
 
 
@@ -31,13 +32,13 @@ class MyS3Client(ResotrStorage):
             Body=json_data
         )
     
-    def save_place_time_if_not_cache(self, date_time: str) -> None:
+    def save_place_time_if_not_cache(self, body: bytes) -> None:
         if self.save_update_time_cache:
             return
-
+        
         self.s3.put_object(
             Bucket=self.bucket,
             Key=self.pt_text_key,
-            Body=date_time.encode('utf-8')
+            Body=body
         )
         self.save_update_time_cache = True

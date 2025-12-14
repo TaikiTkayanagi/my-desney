@@ -17,3 +17,7 @@ class MyDateTime:
     
     def create_time(self) -> str:
         return self.value.strftime('%Y%m%d%H')
+
+    def create_last_update(self):
+        body = f'{self.create_time()}\n{self.to_str()}'
+        return body.encode('utf-8')

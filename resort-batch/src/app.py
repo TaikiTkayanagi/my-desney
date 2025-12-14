@@ -20,7 +20,8 @@ dynamodb: DynamoDBServiceResource = boto3.resource("dynamodb")
 table = dynamodb.Table(os.environ["TABLE_NAME"]) 
 s3: S3Client = boto3.client('s3')
 s3 = boto3.client('s3')
-logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger()
+logger.setLevel("INFO")
 
 def lambda_handler(event, context):
     logging.info(f'event: {event}')
