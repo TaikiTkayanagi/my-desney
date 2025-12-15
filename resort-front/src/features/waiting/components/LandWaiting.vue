@@ -12,19 +12,16 @@ onMounted(async () => await landWaitingStore.fetchItems(url))
 </script>
 
 <template>
-  <v-container>
-    <v-row no-gutters>
-      <v-col>
+  <v-expansion-panels variant="accordion">
+    <v-expansion-panel>
+      <v-expansion-panel-title>
         ワールドバザール
-      </v-col>
-    </v-row>
-    <v-row>
-
-      <v-col v-for="attraction in land?.world" :key="attraction.name" cols="12" md="2" offset="0">
-        <v-sheet class="pa-12" color="grey-lighten-3">
+      </v-expansion-panel-title>
+      <v-expansion-panel-text>
+        <v-col v-for="attraction in land?.world" :key="attraction.name">
           {{ attraction.name }}
-        </v-sheet>
-      </v-col>
-    </v-row>
-  </v-container>
+        </v-col>
+      </v-expansion-panel-text>
+    </v-expansion-panel>
+  </v-expansion-panels>
 </template>
