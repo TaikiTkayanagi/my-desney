@@ -5,6 +5,7 @@ import boto3
 from mangum import Mangum
 from mypy_boto3_dynamodb import DynamoDBServiceResource
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.features.waiting.services.waiting_service import WaitingSerivice
 from src.infrastructures.my_dynamodb_client import MyDynamoDBClient
@@ -17,6 +18,13 @@ except RuntimeError:
     asyncio.set_event_loop(asyncio.new_event_loop())
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 dynamoDb: DynamoDBServiceResource = boto3.resource("dynamodb")
 table = dynamoDb.Table(os.environ["TABLE_NAME"])
 s3Client = boto3.client("s3")

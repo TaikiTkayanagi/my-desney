@@ -6,6 +6,14 @@ Description: >
   Sample SAM Template for resort-api
 
 Resources:
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Cors:
+        AllowOrigin: "'http://localhost:5173'"
+        AllowMethods: "'*'"
+        AllowHeaders: "'*'"
   ResortApi:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -26,6 +34,7 @@ Resources:
         GetEvent:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
+            RestApiId: !Ref ApiGateway
             Path: "/{proxy+}"
             Method: ANY
 
