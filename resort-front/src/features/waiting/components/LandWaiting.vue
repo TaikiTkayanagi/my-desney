@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useLandWaiting } from '../stores/useLandWaiting';
 import { storeToRefs } from 'pinia';
+import AreaWaiting from './AreaWaiting.vue';
+import { useLandWaiting } from '../stores/useLandWaiting';
 
 const { url } = defineProps<{
   url: string
@@ -12,16 +13,13 @@ onMounted(async () => await landWaitingStore.fetchItems(url))
 </script>
 
 <template>
-  <v-expansion-panels variant="accordion">
-    <v-expansion-panel>
-      <v-expansion-panel-title>
-        ワールドバザール
-      </v-expansion-panel-title>
-      <v-expansion-panel-text>
-        <v-col v-for="attraction in land?.world" :key="attraction.name">
-          {{ attraction.name }}
-        </v-col>
-      </v-expansion-panel-text>
-    </v-expansion-panel>
-  </v-expansion-panels>
+  <p>更新日時: {{  land?.date_time }}</p>
+  <AreaWaiting area-name="ワールドバザール" :area-list="land?.world"/>
+  <AreaWaiting area-name="トゥモローランド" :area-list="land?.tommorow"/>
+  <AreaWaiting area-name="トゥーンタウン" :area-list="land?.toon"/>
+  <AreaWaiting area-name="ファンタジーランド" :area-list="land?.fantasy"/>
+  <AreaWaiting area-name="クリッターカントリー" :area-list="land?.country"/>
+  <AreaWaiting area-name="ウエスタンランド" :area-list="land?.westan"/>
+  <AreaWaiting area-name="アドベンチャーランド" :area-list="land?.adventure"/>
+  <AreaWaiting area-name="その他" :area-list="land?.other"/>
 </template>
