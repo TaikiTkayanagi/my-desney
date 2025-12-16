@@ -34,7 +34,7 @@ logger = logging.getLogger()
 logger.setLevel("INFO")
 
 @app.get("/attractions/waiting")
-async def attractions_waiting(place: str, datetime: Union[str, None]):
+async def attractions_waiting(place: str, datetime: Union[str, None] = None):
     bucket = os.environ['BUCKET_NAME']
     key = os.environ['LAST_UPDATE_PATH']
     gsi = os.environ['GSI_NAME']
