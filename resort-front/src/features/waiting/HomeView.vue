@@ -5,8 +5,7 @@ import SeaWaiting from './components/SeaWaiting.vue';
 
 const place = ref("land")
 const url = import.meta.env.VITE_RESORT_API_BASE_URL
-const landPath = import.meta.env.VITE_LAND_WAITING_PATH
-const seaPath = import.meta.env.VITE_SEA_WAITING_PATH
+const waitingPath = import.meta.env.VITE_WAITING_PATH
 </script>
 
 <template>
@@ -18,8 +17,8 @@ const seaPath = import.meta.env.VITE_SEA_WAITING_PATH
     </v-radio-group>
   </header>
   <main>
-    <LandWaiting :url="url + landPath" v-if="place == 'land'" />
-    <SeaWaiting :url="url + seaPath" v-if="place == 'sea'" />
+    <LandWaiting :url="url + waitingPath" v-if="place == 'land'" />
+    <SeaWaiting :url="url + waitingPath" v-if="place == 'sea'" />
   </main>
 </template>
 

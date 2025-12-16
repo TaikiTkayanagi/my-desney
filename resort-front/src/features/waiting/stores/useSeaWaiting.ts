@@ -6,12 +6,12 @@ export const useSeaWaiting = defineStore('seaWaiting', () => {
   const sea = ref<SeeWaitingType | null>(null)
   async function fetchItems(url: string) {
     try {
-      const response = await fetch(url)
+      const response = await fetch(`${url}?place=sea`)
       sea.value = (await response.json()) as SeeWaitingType
-      console.log("取得成功")
+      console.log('取得成功')
     } catch (error) {
       console.log(error)
-    } 
+    }
   }
 
   return { sea, fetchItems }

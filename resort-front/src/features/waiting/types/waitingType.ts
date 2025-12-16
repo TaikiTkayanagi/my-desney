@@ -27,4 +27,7 @@ export interface AreaType {
   name: string
   condition: string
   type: string
+  tml: string | null
+  ohl: string | null
+  thl: string | null
 }
