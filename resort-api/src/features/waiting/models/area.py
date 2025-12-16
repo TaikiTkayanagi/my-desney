@@ -59,3 +59,6 @@ class Attraction:
     name: str
     condition: str
     type: str
+    tml: str
+    ohl: str
+    thl: str

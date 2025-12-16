@@ -10,10 +10,10 @@ class MyDynamoDBClient(WaitingRepository):
         self.table = table
         self.gsi = gsi
 
-    def get_by(self, last_update: LastUpdate, place: str) -> WaitingItems:
+    def get_by(self, date_time: str, place: str) -> WaitingItems:
         response = self.table.query(
             IndexName=self.gsi,
-            KeyConditionExpression=Key("date_time").eq(last_update.date_time) & Key("place").eq(place),
+            KeyConditionExpression=Key("date_time").eq(date_time) & Key("place").eq(place),
             ReturnConsumedCapacity="TOTAL",
             ConsistentRead=False
         )

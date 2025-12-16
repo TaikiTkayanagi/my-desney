@@ -14,11 +14,14 @@ class WaitingItem:
     place: str
     type: str
 
-    def convert_to(self) -> Attraction:
+    def convert_to(self, ohl, thl, tml) -> Attraction:
         return Attraction(
             condition=self.condition,
             name=self.name,
-            type=self.type
+            type=self.type,
+            ohl=ohl,
+            thl=thl,
+            tml=tml 
         )
 
 
@@ -26,15 +29,25 @@ class WaitingItem:
 class WaitingItems:
     list: list[WaitingItem]
 
-    def group_by_area(self):
+    def pick_up_name_condition(self):
+        ret = {}
+        for item in self.list:
+            ret[item.name] = item.condition 
+        return ret
+        
+
+    def group_by_area(self, thirty_minutes_later: dict[str, str], one_hour_later: dict[str, str], three_hour_later: dict[str, str]):
         memo: dict[str, list[Attraction]] = {}
         date_time = ""
         for item in self.list:
             area = Area.convert(item.area, item.place)
+            tml = thirty_minutes_later.get(item.name) 
+            ohl = one_hour_later.get(item.name)
+            thl = three_hour_later.get(item.name) 
             if area in memo:
-                memo[area].append(item.convert_to())
+                memo[area].append(item.convert_to(tml, ohl, thl))
             else:
-                memo[area] = [item.convert_to()]
+                memo[area] = [item.convert_to(tml, ohl, thl)]
             if date_time == "":
                 date_time = item.date_time
 

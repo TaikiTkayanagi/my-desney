@@ -1,11 +1,9 @@
 from dataclasses import dataclass
+import datetime
+
+from src.features.waiting.models.date_time import MyDateTime
 
 
 @dataclass
 class LastUpdate():
-    place_time: str
     date_time: str
-
-    def get_place(self):
-        return self.place_time.split("_")[0]
-    
